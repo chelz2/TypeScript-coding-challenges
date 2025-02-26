@@ -1,8 +1,7 @@
-// const person: {
-//   name: string;
-//   age: number;
-// } = {
-const person = {
+const person: {
+  name: string;
+  age: number;
+} = {
   name: "Maximilian",
   age: 30,
 };
