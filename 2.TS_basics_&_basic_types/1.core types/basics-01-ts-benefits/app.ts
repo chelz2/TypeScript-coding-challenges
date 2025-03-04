@@ -1,9 +1,9 @@
-function add(n1: number, n2: number, showResult: boolean, phrase: string) {
-  const result = n1 + n2;
+function add(a1: number, b2: number, showResult: boolean, phrase: string) {
+  const result = a1 + b2;
   if (showResult) {
     console.log(phrase + result);
   } else {
-    return n1 + n2;
+    return a1 + b2;
   }
 }
 
