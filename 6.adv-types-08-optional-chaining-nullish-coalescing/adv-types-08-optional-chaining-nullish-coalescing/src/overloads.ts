@@ -16,7 +16,7 @@
 
 // noOfWords.length; // no error - ts knows o/p is string
 
-// alternate to type casting
+// alternate - function signature
 function getLength(val: any[]): number; // function signature - explecit return type based on i/p
 function getLength(val: string): string;
 function getLength(val: string | any[]) {
@@ -29,4 +29,7 @@ function getLength(val: string | any[]) {
 }
 
 let noOfWords = getLength("Hello, there!!!");
-//noOfWords.length  !!! ERROR - ts not sure : number or string !!!
+noOfWords.length; // no error - ts explecitly knows its string
+
+const numItems = getLength(["cat", "dog"]);
+console.log(numItems);
