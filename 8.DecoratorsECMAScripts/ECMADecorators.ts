@@ -88,7 +88,7 @@ function autobind(
   ctx: ClassMethodDecoratorContext
 ) {
   ctx.addInitializer(function (this: any) {
-    this[ctx.name] = this[ctx.name].bind();
+    this[ctx.name] = this[ctx.name].bind(this);
   });
 }
 
@@ -116,3 +116,66 @@ const greet = monday.greet; // pointer - to greet method
 //greet();
 
 greet(); // "this" bind added to decorator itself - dynamic can be use on any class method
+
+//Replacing/updating Class methods with decorators
+
+function autobind2(
+  target: (...args: any[]) => any,
+  ctx: ClassMethodDecoratorContext
+) {
+  ctx.addInitializer(function (this: any) {
+    this[ctx.name] = this[ctx.name].bind(this);
+  });
+
+  return function (this: any) {
+    // updating the class method
+    console.log("Executing original function");
+    target.apply(this);
+  };
+}
+
+//4. Field Decorators
+// function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) {
+//   console.log("field logger");
+//   console.log(target, ctx);
+
+//   return (initialValue: any) => {
+//     console.log(initialValue);
+//     return "Amy";
+//   };
+// }
+
+// 4. Dacorator configuration - factory decorator
+
+function replacer<T>(newVal: T) {
+  return function fieldLogger(
+    target: undefined,
+    ctx: ClassFieldDecoratorContext
+  ) {
+    console.log("field logger");
+    console.log(target, ctx);
+
+    return (initialValue: any) => {
+      console.log(initialValue);
+      return newVal;
+    };
+  };
+}
+
+@logger3
+class Person4 {
+  @replacer("99 :)")
+  name = "J Wick";
+
+  // constructor() {
+  //   this.greet = this.greet.bind(this);
+  // }
+  @autobind2
+  greet() {
+    console.log("Hello I am " + this.name);
+  }
+}
+
+const jane = new Person4();
+const greet2 = jane.greet;
+greet2();
